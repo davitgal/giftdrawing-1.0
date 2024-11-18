@@ -26,7 +26,7 @@
 
         async function getNextPrize() {
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzA4otA9v8u8vcEA-R_V9mDB_rcDv3XMHLssnxga3cDw5jQwpfSGUqW-ewCwrWUNuRe/exec');
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwxjQ8OMo774Wzp7IoYfokSMdexQ_hiNplItUSsrMZaw85zuVmin4sfONhrDmvOCnf7/exec');
                 if (!response.ok) {
                     throw new Error('Ошибка при получении данных');
                 }
@@ -49,7 +49,7 @@
                 const formData = new URLSearchParams();
                 formData.append('rowIndex', rowIndex);
 
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzA4otA9v8u8vcEA-R_V9mDB_rcDv3XMHLssnxga3cDw5jQwpfSGUqW-ewCwrWUNuRe/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwxjQ8OMo774Wzp7IoYfokSMdexQ_hiNplItUSsrMZaw85zuVmin4sfONhrDmvOCnf7/exec', {
                     method: 'POST',
                     body: formData
                 });
