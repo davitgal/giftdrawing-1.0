@@ -24,7 +24,7 @@
         });
 
         async function getNextPrize() {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbxgaLIvzYivc1uQhWiXmAGZbUyZTkG8fjlcfrlGk1NL-KwJo1pGM311Bmm26WsTm8Y/exec');
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec');
             const data = await response.json();
 
             if (data.prize) {
