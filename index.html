@@ -23,24 +23,43 @@
             getNextPrize();
         });
 
+        // Функция для получения следующего приза
         async function getNextPrize() {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec');
-            const data = await response.json();
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec');
+                if (!response.ok) { // Проверка успешности запроса
+                    throw new Error('Ошибка при получении данных');
+                }
+                const data = await response.json();
 
-            if (data.prize) {
-                message.textContent = `Поздравляем! Вы выиграли ${data.prize}`;
-                updatePrizeStatus(data.rowIndex);
-            } else {
-                message.textContent = "Извините, все подарки уже розданы!";
+                if (data.prize) {
+                    message.textContent = `Поздравляем! Вы выиграли ${data.prize}`;
+                    updatePrizeStatus(data.rowIndex);
+                } else {
+                    message.textContent = "Извините, все подарки уже розданы!";
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);  // Логирование ошибки в консоль
+                message.textContent = 'Произошла ошибка при попытке получить данные.';
             }
         }
 
+        // Функция для обновления статуса призов
         async function updatePrizeStatus(rowIndex) {
-            await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ rowIndex: rowIndex })
-            });
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rowIndex: rowIndex })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Ошибка при обновлении статуса');
+                }
+                console.log('Статус обновлен успешно');
+            } catch (error) {
+                console.error('Ошибка при обновлении статуса:', error);
+            }
         }
     </script>
 </body>
