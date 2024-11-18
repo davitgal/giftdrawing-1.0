@@ -36,7 +36,7 @@
         }
 
         async function updatePrizeStatus(rowIndex) {
-            await fetch('https://script.google.com/macros/s/AKfycbyh6WmY9e9bDf7wxJ82KINh1Z0cmVaT9ZJ7uRVQ2TZlhGXL3_5L_FDU701l5XcRQ1qe/exec', {
+            await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ rowIndex: rowIndex })
