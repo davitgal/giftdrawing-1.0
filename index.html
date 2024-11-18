@@ -1,66 +1,47 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Розыгрыш призов</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        button { padding: 10px 20px; font-size: 18px; margin: 20px; }
-        #message { font-size: 20px; color: green; }
-    </style>
-</head>
-<body>
-    <h1>Розыгрыш призов детка</h1>
-    <button id="drawButton">Нажми на меня!</button>
-    <div id="message"></div>
-    
-    <script>
-        const button = document.getElementById("drawButton");
-        const message = document.getElementById("message");
+<script>
+    const button = document.getElementById("drawButton");
+    const message = document.getElementById("message");
 
-        button.addEventListener("click", () => {
-            getNextPrize();
-        });
+    button.addEventListener("click", () => {
+        getNextPrize();
+    });
 
-        // Функция для получения следующего приза
-        async function getNextPrize() {
-            try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec');
-                if (!response.ok) { // Проверка успешности запроса
-                    throw new Error('Ошибка при получении данных');
-                }
-                const data = await response.json();
-
-                if (data.prize) {
-                    message.textContent = `Поздравляем! Вы выиграли ${data.prize}`;
-                    updatePrizeStatus(data.rowIndex);
-                } else {
-                    message.textContent = "Извините, все подарки уже розданы!";
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);  // Логирование ошибки в консоль
-                message.textContent = 'Произошла ошибка при попытке получить данные.';
+    async function getNextPrize() {
+        try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbzX3nNF6wDZNv7ThVUVOtbLVeQrQ0bZBMIvw71qtVYFhDagER3u6Lzhhs2sG33UWJlV/exec');
+            if (!response.ok) {
+                throw new Error('Ошибка при получении данных');
             }
-        }
+            const data = await response.json();
 
-        // Функция для обновления статуса призов
-        async function updatePrizeStatus(rowIndex) {
-            try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbwedtZhTmuOeYggD3eKIn8hYvuGbuN5u4dTfIk8lRFJ0Z32SFnTgwfHaLay8UrwjE2e/exec', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ rowIndex: rowIndex })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Ошибка при обновлении статуса');
-                }
-                console.log('Статус обновлен успешно');
-            } catch (error) {
-                console.error('Ошибка при обновлении статуса:', error);
+            if (data.prize) {
+                message.textContent = `Поздравляем! Вы выиграли ${data.prize}`;
+                updatePrizeStatus(data.rowIndex);
+            } else {
+                message.textContent = "Извините, все подарки уже розданы!";
             }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            message.textContent = 'Произошла ошибка при попытке получить данные.';
         }
-    </script>
-</body>
-</html>
+    }
+
+    async function updatePrizeStatus(rowIndex) {
+        try {
+            const formData = new URLSearchParams(); // Используем URLSearchParams вместо JSON
+            formData.append('rowIndex', rowIndex);
+
+            const response = await fetch('https://script.google.com/macros/s/AKfycbzX3nNF6wDZNv7ThVUVOtbLVeQrQ0bZBMIvw71qtVYFhDagER3u6Lzhhs2sG33UWJlV/exec', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Ошибка при обновлении статуса');
+            }
+            console.log('Статус обновлен успешно');
+        } catch (error) {
+            console.error('Ошибка при обновлении статуса:', error);
+        }
+    }
+</script>
